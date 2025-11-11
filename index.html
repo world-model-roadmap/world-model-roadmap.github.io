@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulating the Visual World with Artificial Intelligence: A Roadmap</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Simulating the Visual World with Artificial Intelligence: A Roadmap</h1>
+    <img src="assets/fig_teaser.png" alt="Teaser image of Video Generation towards World Model" class="teaser">
+    <p>Jingtong Yue, Ziqi Huang<sup>†</sup>, Zhaoxi Chen, Xintao Wang, Pengfei Wan, Ziwei Liu<sup>*</sup>.<br>Carnegie Mellon University, Nanyang Technological University, Kling Team Kuaishou Technology <br> 2025</p>
+    
+      <p style="font-size: 0.9em;">
+    <sup>†</sup> Project Lead &nbsp;&nbsp;
+    <sup>*</sup> Corresponding Author
+  </p>
+    
+    <div class="buttons">
+      <a href="papers/Video_Generation_towards_World_Model.pdf" class="btn">📄 Paper (PDF)</a>
+      <a href="https://github.com/ziqihuangg/Awesome-From-Video-Generation-to-World-Model" class="btn">💻 Repo</a>
+      <!-- <a href="https://arxiv.org/abs/xxxx.xxxxx" class="btn">🔗 arXiv</a> -->
+    </div>
+  </header>
+
+  <section id="abstract">
+    <h2>🧩 Abstract</h2>
+    <p>
+      Video generation is evolving from merely creating visually appealing clips to constructing virtual environments that obey physical 
+      laws and enable real-time interaction. We conceptualize modern video foundation models as the fusion of two key components: an implicit 
+      world model that simulates physics and causal dynamics, and a video renderer that visualizes these internal simulations. Tracing this 
+      evolution, we propose a four-generation taxonomy from faithfulness, to interactiveness, to planning, and finally stochasticity, representing 
+      the gradual emergence of video-based world models that act as genuine simulators of reality.
+    </p>
+  </section>
+<!-- 
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <img src="assets/fig_teaser.png" alt="Overview of 4 Generations" />
+    <p><em>Figure 1. Overview of 4 Generations and 3 Core Capabilities from Video Generation to World Model.</em></p>
+  </section> -->
+
+  <!-- <section id="Introduction">
+    <h2>🌍 1 Introduction</h2>
+    <p>
+      A world model aims to simulate the dynamics of the real worldi, such as motion, interaction, and causality, and lies at the core of robotics, 
+      autonomous driving, and embodied AI. Video generation provides a uniquely natural path toward this goal because vision encodes both space 
+      and time. Recent breakthroughs in diffusion and autoregressive video models have enabled long, coherent, and high-fidelity sequences, 
+      transforming video generation into a foundation for physically consistent, interactive simulation engines.
+    </p>
+    <img src="assets/future_c.png" alt="Overview of 4 Generations" />
+    <p><em>Figure 1. Overview of 4 Generations and 3 Core Capabilities from Video Generation to World Model. </em>The figure illustrates the key 
+      capabilities emphasized in the first through third generations of world models, as well as our insight for future world models. We outline a 
+      long-term vision of world models that can simulate a broad range of environments across multiple spatial and temporal scales. The figure 
+      highlights four foundational characteristics: real-time responsiveness, stochasticity, multi-scale planning, and intrinsic physical faithfulness. 
+      These collectively support the long-term goal of zero-shot generalization.</p>
+  </section> -->
+
+  <section id="Introduction">
+    <h2>🌍 1 Introduction</h2>
+    <img src="assets/future_c.png" alt="Overview of 4 Generations" />
+    <p><em>Figure 1. Overview of 4 Generations and 3 Core Capabilities from Video Generation to World Model.</em> The figure illustrates the key 
+      capabilities emphasized in the first through third generations of world models, as well as our insight for future world models. We outline a 
+      long-term vision of world models that can simulate a broad range of environments across multiple spatial and temporal scales. The figure 
+      highlights four foundational characteristics: real-time responsiveness, stochasticity, multi-scale planning, and intrinsic physical faithfulness. 
+      These collectively support the long-term goal of zero-shot generalization.</p>
+    <h3>1.1 Motivation</h3>
+    <p>
+      World models aim to simulate the physical and causal structure of reality, driving progress in robotics, autonomous driving, and embodied AI. 
+      Among various approaches, video generation stands out because vision inherently captures both spatial and temporal information. Advances in 
+      diffusion and autoregressive models now allow high-fidelity, long-term video synthesis that reflects real-world physics, making video generation
+       a natural foundation for world modeling.
+    </p>
+    <img src="assets/paper_count_c.png" alt="Annual Papers and Articles Paper Counts" />
+    <p><em>Figure 2. Overview of Annual Papers and Articles Paper Counts in Video Generation & World Model Fields.</em> The
+      article count was derived from searches conducted using the fixed keyword combination “video generation” and “world model”
+      from Google Scholar and arXiv.</p>
+
+    <h3>1.2 Position</h3>
+    <p>
+      We distinguish between two complementary perspectives: the physical world model, which objectively simulates external dynamics, and the mental 
+      world model, which captures internal cognition, intention, and reasoning. The physical axis represents laws of motion and environmental evolution
+      , while the mental axis embodies perception and intention. Understanding both is essential for bridging simulation and intelligent behavior.
+    </p>
+    <img src="assets/phy_men.png" class="small" alt="Characteristics of Physical World Model and Mental World Model"/>
+    <p><em>Figure 3. The Characteristics of Physical World Model and Mental World Model.</em> This figure highlights the distinct
+      inputs, internal processes, and outputs, as well as the interaction through perception, planning, and guidance between the
+      physical world model and the mental world model.</p>
+
+    <h3>1.3 Scope</h3>
+    <p>
+      This survey focuses on how video generation evolves toward comprehensive world models capable of learning structured world knowledge for 
+      perception, reasoning, and planning. We emphasize multimodal systems that integrate text, vision, and control signals to simulate real-world 
+      dynamics and generalize across domains such as robotics, gaming, and scientific visualization.
+    </p>
+    
+  </section>
+
+  <section id="Definition">
+    <h2>⚙️ 2 Problem Definition and Taxonomy</h2>
+    <p>
+      We define a physical world model as a digital cousin of the real world, a simulator that captures objective world knowledge without replicating 
+      specific instances. It maps multimodal inputs (text, images, audio, actions, trajectories) to temporally coherent video outputs, effectively 
+      serving as a stochastic generative process. The model mirrors an MDP/POMDP: learning objective world dynamics during training, while performing 
+      subjective inference during generation.
+    </p>
+      <img src="assets/definition_c2.png" alt="Overview of the World Model " />
+    <p><em>Figure 4. Overview of the World Model Defined in this Paper.</em> The world model must take inputs such as text, images,
+      videos, audios or their combinations. It may also incorporate external conditions for interaction, including spatial conditions
+      and navigation conditions. A video generation model is leveraged to process the intermediate state representations to produce
+      video outputs, while other task-specific outputs may also be generated depending on the downstream application.</p>
+          <h3>2.1 Taxonomy of Four Generations from Video Generation to World Model</h3>
+          <p>
+            <ul>
+              <li>Generation 1 - Faithfulness: Generates short, realistic clips with limited control or planning.</li>
+              <li>Generation 2 - Interactiveness: Adds controllability, spatiotemporal reasoning, and semantic consistency.</li>
+              <li>Generation 3 - Planning: Achieves real-time, self-evolving, and physics-driven long-horizon simulation.</li>
+              <li>Generation 4 - Stochasticity: Models low-probability events and multi-scale dynamics, capturing both deterministic and random physical processes.</li>
+            </ul>
+          </p>
+          <h3>2.2 Definition of Navigation Mode</h3>
+          <p>
+            We define the navigation mode as a temporally evolving, content-independent, and spatially reasoning control interface that guides video 
+            generation. It differs from spatial conditions like depth or sketch maps because it allows genuine interaction and dynamic reasoning. This 
+            concept provides a theoretical tool to assess whether a video model truly exhibits planning and interactivity.
+          </p>
+
+  </section>
+
+  <section id="Roadmap">
+    <h2>🪜 3 Roadmap</h2>
+    <p>
+      The roadmap of video generation toward world modeling can be viewed as a continuous progression along three capability axes: faithfulness, 
+      interactiveness, and planning. Each generation focuses on one dominant ability while advancing the others in parallel. Together, these dimensions 
+      represent the gradual evolution from visual realism to physically grounded simulation and intelligent reasoning.<br>
+
+      <b>(1) Generation 1: Faithfulness</b><br>
+      The first generation emphasizes visual and temporal realism. Models in this stage can generate short, visually appealing clips that maintain basic text-video consistency and 
+      object motion coherence. However, their “world” remains superficial: physical laws, 3D geometry, and task understanding are weak or absent. These systems rely heavily on static 
+      spatial conditions like sketches or depth maps and show limited controllability, which are good at “showing” but not at “doing.”<br>
+      <b>(2) Generation 2: Interactiveness</b><br>
+      The second generation marks the rise of controllability and semantic understanding. Models begin to support navigation modes such as trajectories, actions, or text instructions,
+      allowing humans or agents to influence the simulated world. They generate longer, coherent videos with consistent physics and improved subject centered control. Temporal 
+      stability and semantic alignment make them capable of simple, goal-driven planning, e.g., executing a short sequence like “pick up the cup and pour water.” This stage forms the
+      bridge between pure generation and real-time simulation.<br>
+      <b>(3) Generation 3: Planning</b><br>
+      Planning emerges as a defining capability. Generation 3 world models simulate complex, real-time, and self-evolving dynamics grounded in intrinsic physical knowledge. They can 
+      produce infinitely extending sequences, adapt to external stimuli, and handle multi-entity interactions with causal coherence. For example, given the command “make a cup of 
+      coffee,” the model can autonomously generate long sequences involving heating water, grinding beans, and pouring, all while maintaining spatial consistency and temporal logic. 
+      Interaction becomes local and precise, with frame-level control and physical reasoning.<br>
+      <b>(4) Generation 4: Stochasticity</b><br>
+      The fourth generation integrates probabilistic reasoning and multi-scale modeling, enabling simulation of both common and rare events. These models can represent uncertainties 
+      and low-probability phenomena, like accidents, weather extremes, or biological variations, within realistic distributions. They unify microscopic (millisecond), mesoscopic 
+      (everyday), and macroscopic (long-term) time scales, achieving global, multimodal interaction across language, vision, and control. In this stage, the world model behaves as a 
+      general purpose simulator, capable of imagining countless plausible futures with physical and causal fidelity.<br>
+
+    </p>
+      <img src="assets/generation_detail_c.png" alt="Overview of the Capabilities of World Model" />
+      <p><em>Figure 5. Overview of the Capabilities of World Model Across 4 Generations.</em> This figure presents the three main
+        capabilities of world models, along with their corresponding secondary capabilities under each category.</p>
+
+  </section>
+
+  <section id="Methods">
+    <h2>🧠 4 Methods: A Hierarchical Taxonomy</h2>
+    <p>
+      World modeling evolves along three parallel dimensions, faithfulness, interactiveness, and planning, which develop together rather than sequentially. Each generation highlights 
+      one main capability but continues improving the others, forming a continuous hierarchy. The methods discussed below are grouped by generation and application domains: general 
+      scenes, robotics, autonomous driving, and gaming, which collectively illustrate how controllable video generation matures into true world simulation.
+    </p>
+    <img src="assets/main_fig.png" alt="Chronological Overview of Methods" />
+      <p><em>Figure 6. Chronological Overview of Methods from Video Generation to World Models.</em> The figure presents a chrono-
+        logical overview along the horizontal axis, categorizing existing methods by four application domains along the vertical axis:
+        general scenes, robotics, autonomous driving, and gaming. Additionally, different colors are used to indicate different genera-
+        tions of world models.</p>
+    <h3>4.1 Generation 1 - Faithfulness: Accurate Simulation of the Real World</h3>
+    <p>
+      In Generation 1, the goal is to produce short yet realistic video clips that maintain visual coherence and text-video alignment. This stage 
+      establishes the foundations of world modeling through video foundation models, spatial world models, and navigation world models.
+    </p>
+    <h4>4.1.1 Foundation Models with Visual-Centric World Knowledge</h4>
+    <p>
+      Early diffusion, transformer, and VAE-based models such as <a href="#hacohen2024ltxvideo">LTX-Video</a>, <a href="#zheng2024opensora">Open-Sora</a>, and <a href="#chen2023videocrafter1">VideoCrafter</a> generate visually consistent frames with basic 
+      temporal continuity. They learn general motion and appearance priors from large-scale data, supporting tasks like motion imitation and scene 
+      rendering. However, they still lack true 3D reasoning, physical causality, and goal-oriented planning.
+    </p>
+    <h4>4.1.2 Spatial World Models</h4>
+    <p>
+      Spatially conditioned models introduce additional inputs, such as depth maps, sketches, motion fields, or 3D geometry, to guide the generation process. 
+      Works such as <a href="#liang2024diffusion4d">Diffusion4D</a> or <a href="#liu2024physgen">PhysGen</a> embed geometric or physical priors to enforce spatial consistency and realistic object interactions. While 
+      these signals improve controllability, they remain scene-dependent and static, offering limited flexibility for dynamic interaction.
+    </p>
+    <h4>4.1.3 Navigation World Models</h4>
+    <p>
+      Navigation world models incorporate temporal control signals like trajectories, camera motion, or text commands into the input space. They enable 
+      motion aware video generation and elementary interactivity. Methods like <a href="#ma2024trailblazer">TrailBlazer</a>, <a href="#jain2024peekaboo">Peekaboo</a>, and <a href="#wang2024drivedreamer">DriveDreamer</a> demonstrate how adding 
+      trajectories or actions allows localized control of subject or camera motion. Yet, they remain limited to short sequences and single agent scenes.
+    </p>
+
+    <h3>4.2 Generation 2 - Interactiveness: Controllability and Interactive Dynamics</h3>
+    <p>
+      Generation 2 represents a decisive shift toward dynamic, flexible control. Models now integrate multiple modalities, such as geometry, physics, actions, and 
+      language, to support long-horizon interaction and semantically consistent behavior. Faithfulness and planning also improve through richer conditioning 
+      and real-time responsiveness.
+    </p>
+    <img src="assets/condition_inject_c.png" alt="Overview of Condition Injection Strategies" />
+      <p><em>Figure 7. Overview of Condition Injection Strategies.</em> This figure illustrates five representative strategies for condition
+        injection. Subfigures (a) through (e) correspond to the ControlNet-based method, multi-modal Transformer, cross-attention,
+        concatenation, and addition, respectively.</p>
+    <h4>4.2.1 Foundation Models with Dynamic-Aware World Knowledge</h4>
+    <p>
+      These models, such as <a href="#sora">Sora</a>, <a href="#kong2024hunyuanvideo">HunyuanVideo</a>, and <a href="#teng2025magi">MAGI-1</a>, combine diffusion backbones with autoregressive or causal modules to improve temporal 
+      coherence. They learn not only to render visuals but also to predict and adapt to changes in the environment. Techniques like <a href="#zhang2023controlnet">ControlNet</a>, 
+      cross-attention, and multimodal transformers inject control signals efficiently, bridging foundation video models and interactive world simulators, as shown in Figure 7.
+    </p>
+
+    <h4>4.2.2 Video Generation as World Model in General Scene</h4>
+    <p>
+      General scene approaches demonstrate how controllable video generation can generalize across environments.
+      <ul>
+              <li><b>Geometry-conditioned models</b> (e.g., <a href="#sketchVideo">SketchVideo</a>) use sparse sketches or motion cues for precise visual control.</li>
+              <li><b>3D prior models</b> (e.g., <a href="#gu2025das">DaS</a>, <a href="#bian2025gsdit">GS-DiT</a>) enhance realism and structure with point clouds and multi-view information.</li>
+              <li><b>Physical prior models</b> (e.g., <a href="#xue2025phyt2v">PhyT2V</a>, <a href="#wang2025wisa">WISA</a>) embed physical laws to improve realism and causality.</li>
+              <li><b>Camera motion models </b>(e.g., <a href="#he2025cameractrl2">CameraCtrl II</a>, <a href="#ren2025gen3c">GEN3C</a>) simulate agent like first person views.</li>
+              <li><b>Instruction-based models</b> (e.g., <a href="#xiang2024pandora">Pandora</a>, <a href="#aether">AETHER</a>) follow text commands such as “turn left” or “zoom in,” marking the transition from passive generation to active world simulation.</li>
+            </ul>
+    </p>
+    <h4>4.2.3 Video Generation as World Model in Robotics</h4>
+    <p>
+      In robotics, video based world models help agents visualize and plan their actions within physical environments. Systems like <a href="#alhaija2025cosmostransfer1">Cosmos-transfer1</a>, 
+      <a href="#yang2023unisim">UniSim</a>, <a href="#guo2024pad">PAD</a>, and <a href="#fan2024videoagent">VideoAgent</a> integrate multimodal observations (vision, depth, text) to predict outcomes of robot motion. These models can generate and adapt 
+      visual plans conditioned on control signals or goals, providing a bridge between perception and decision-making in embodied learning.
+    </p>
+    <h4>4.2.4 Video Generation as World Model in Autonomous Driving</h4>
+    <p>
+      Autonomous driving world models simulate road scenes for safe policy learning and planning. Methods such as <a href="#ren2025cosmosdrivedream">Cosmos-Drive-Dreams</a>, 
+      <a href="#russell2025gaia2">Gaia-2</a>, <a href="#hu2024drivingworld">DrivingWorld</a>, and <a href="#gao2024vista">Vista</a> generate realistic driving sequences conditioned on layouts, bounding boxes, and navigation maps. Later systems incorporate 
+      trajectory based and instruction based control to enable reactive and goal oriented driving video synthesis, supporting data generation for 
+      planning and reinforcement learning.
+    </p>
+    <h4>4.2.5 Video Generation as World Model in Gaming</h4>
+    <p>
+      Gaming provides an ideal sandbox for interactive simulation. Works like <a href="#li2025hunyuangamecraft">Hunyuan-GameCraft</a>, <a href="#parker2024genie2">Genie-2</a>, <a href="#decart2024oasis">Oasis</a>,
+      and <a href="#valevski2024gamengen">GameNGen</a> treat video generation as a 
+      controllable game rendering engine, where users manipulate characters or scenes through controller signals or language instructions. These 
+      prototypes show how generative models can create dynamic, playable virtual worlds—an early form of open-ended digital simulation.
+    </p>
+    <h3>4.3 Generation 3 - Planning: Real-Time and Complex Prediction</h3>
+    <p>
+      Generation 3 marks a major leap from controllable video generation to true simulation and forecasting.
+      These models can plan and evolve the state of the world over long horizons while maintaining physical realism.
+      They integrate intrinsic physics, causal reasoning, and self-evolving world dynamics to simulate how a scene changes in response to both internal and external factors.
+
+      Models such as <a href="#ref-assran2025">V-JEPA 2</a>, <a href="#mirage2025">MirageLSD</a>, <a href="#nwm">NWM</a>, and <a href="#google2025genie3">Genie 3</a> represent this stage.
+      They predict extended or even infinite sequences by reasoning over interactions among multiple agents, complex environments, and temporal dependencies.
+      The resulting systems exhibit physically intrinsic faithfulness, their behavior obeys Newtonian and fluid dynamic principles, and real-time local interactiveness, 
+      allowing users or agents to modify objects and observe instant, consistent responses.
+      This generation signals the convergence of video simulation and decision-making, providing a framework for embodied planning and scientific modeling.
+    </p>
+
+    <h3>4.4 Generation 4 - Stochasticity: Multi-Scale and Low-Probability Simulation</h3>
+    <p>
+      The fourth generation introduces stochastic world modeling, where systems reason not only about what is likely but also about what could happen.
+      Such models can generate both deterministic and random outcomes, capturing rare, “black-swan” events like accidents, weather anomalies, or 
+      biological variations, while preserving physical plausibility.
+      They operate across multiple spatiotemporal scales:
+      <ul>
+              <li><b>Microscopic</b> (millisecond level detail, e.g., molecular motion),</li>
+              <li><b>Mesoscopic</b> (daily, human scale dynamics), and</li>
+              <li><b>Macroscopic</b> (planetary or cosmological processes).</li>
+            </ul>
+      Generation 4 systems, such as <a href="#"></a>NWM and <a href="#"></a>AETHER, unify these scales under probabilistic planning, linking local physics with global evolution.
+      They exhibit global and multimodal interactiveness, coordinating multiple agents and sensory streams (vision, text, audio, control).
+      In essence, these are general purpose simulation engines, digital cousins of the real world that can imagine endless physically coherent futures.
+    </p>
+
+    <h3>4.5 Insight: Beyond Generation</h3>
+    <p>
+      Sections 4.1 to 4.4 collectively outline a hierarchical taxonomy where each generation deepens three key abilities: faithfulness, interactiveness, 
+      and planning, across diverse domains:
+      <ul>
+              <li><b>General Scenes:</b> evolve from visual realism to controllable, physically grounded simulation.</li>
+              <li><b>Robotics:</b> transition from video prediction to goal driven, embodied planning.</li>
+              <li><b>Autonomous Driving:</b> grow from static layout generation to dynamic, reactive world modeling.</li>
+              <li><b>Gaming:</b> progress from rendered animation to open-ended, playable environments.</li>
+            </ul>
+      Across these fields, world models become not just renderers but reasoners: systems that can perceive, plan, and act within their own simulated 
+      universes. This unified framework demonstrates how controllable video generation is maturing into a comprehensive paradigm for modeling, 
+      understanding, and interacting with the physical and imagined worlds.
+    </p>
+  </section>
+
+
+  <section id="Future World Model">
+  <h2>🚀 5 Future World Model: Everything, Everywhere, Anytime Simulation</h2>
+  <img src="assets/app_c.png" class="small" alt="Overview of Further Applications" />
+      <p><em>Figure 8. Overview of Further Applications of World Models.</em> World models promise broad and long-term impact across
+        diverse domains: simulating molecular structures and physical laws in physics and chemistry, generating synthetic training data
+        and serving as virtual testbeds in robotics and autonomous driving, and enabling drug testing and protein structure prediction
+        in biology and medicine.</p>
+  <h3>5.1 Two Complementary Development Directions</h3>
+  <p>Two major paths define the future of world models. (a) Precision Simulators: This direction pursues perfect physical fidelity models so accurate 
+    they could pass a Turing Test for reality. Such systems would become scientific instruments for hypothesis testing and in silico experimentation. 
+    (b) World Models for Decision and Control: In parallel, reinforcement learning research develops latent space dynamics for planning and control. 
+    These models focus less on pixel realism and more on predictive internal representations that let embodied agents imagine,
+    act, and optimize policies before real-world execution. Together, these lines unite high fidelity simulation with decision oriented reasoning, 
+    forming a bridge between environment and agency<br> A third complementary vision sees world models as generative engines of world 
+    knowledge creative systems that can spawn countless consistent yet diverse virtual realities from the same initial conditions. In this paradigm, 
+    world models evolve from mere observers to active creators of new worlds.</p>
+  
+  <h3>5.2 Applications and Societal Impact</h3>
+  <p>
+    Future world models will profoundly influence science, industry, and everyday life. They can generate infinite interaction data for robotics, 
+    simulate rare failure cases for autonomous driving, and predict ecological or climate outcomes across biology, astronomy, and physics. For example,
+     they might model microbial growth, atmospheric shifts, or animal habitats under different conditions helping anticipate extinction risks or 
+     climate driven disasters. By providing controllable, physically consistent virtual laboratories, world models could transform how humans experiment,
+      learn, and design in the digital age.
+  </p>
+
+  <h3>5.3 Conclusion and Outlook</h3>
+  <p>
+    The paper concludes that world models are converging into two synergistic paradigms as precision simulators for scientific understanding and as 
+    creative engines for knowledge generation. These systems will reshape how we perceive, reason, and act within both real and virtual worlds. 
+    Ultimately, the authors foresee world models evolving into general simulation intelligence: engines capable of modeling any environment, under any
+     physics, at any scale, laying the foundation for the next era of embodied artificial intelligence.
+  </p>
+
+
+  <section id="citation">
+    <h2>Citation</h2>
+<pre><code>@article{yue2025video,
+  title={Simulating the World Model with Artificial Intelligence: A Roadmap},
+  author={Jingtong Yue, Ziqi Huang, Zhaoxi Chen, Xintao Wang, Pengfei Wan, Ziwei Liu},
+  year={2025}
+}</code></pre>
+  </section>
+
+  <section id="Acknowledgements">
+    <h2>Acknowledgements</h2>
+    <p>
+      I would like to thank Jiaming Song for his valuable feedback.
+    </p>
+  </section>
+
+  <section id="References">
+    <h2>References</h2>
+    <div class="reference-list">
+    <p id="hacohen2024ltxvideo">
+      1. Haochen et al., 2024,   
+      <a href="https://arxiv.org/abs/2501.00103" target="_blank">Ltx-video: Realtime video latent diffusion</a>
+    </p>
+
+    <p id="zheng2024opensora">
+      2. Zangwei et al., 2024,   
+      <a href="https://arxiv.org/abs/2412.20404" target="_blank">Open-sora: Democratizing efficient video production for all</a>
+    </p>
+
+    <p id="chen2023videocrafter1">
+      3. Haoxin et al., 2023,   
+      <a href="https://arxiv.org/abs/2310.19512" target="_blank">Videocrafter1: Open diffusion models for high-quality video generation</a>
+    </p>
+
+    <p id="liang2024diffusion4d">
+      4. Hanwen et al., 2024,   
+      <a href="https://arxiv.org/abs/2405.16645" target="_blank">Diffusion4d: Fast spatial-temporal consistent 4d generation via video diffusion models</a>
+    </p>
+
+    <p id="liu2024physgen">
+      5. Shaowei et al., 2024,   
+      <a href="https://arxiv.org/abs/2409.18964" target="_blank">Physgen: Rigid-body physics-grounded image-to-video generation</a>
+    </p>
+
+    <p id="ma2024trailblazer">
+      6. Wan-Duo Kurt et al., 2023,   
+      <a href="https://arxiv.org/abs/2401.00896" target="_blank">Trailblazer: Trajectory control for diffusion-based video generation</a>
+    </p>
+
+    <p id="jain2024peekaboo">
+      7. Jain et al., 2024,   
+      <a href="https://arxiv.org/abs/2312.07509" target="_blank">Peekaboo: Interactive video generation via masked-diffusion</a>
+    </p>
+
+    <p id="wang2024drivedreamer">
+      8. Xiaofeng et al., 2024,   
+      <a href="https://arxiv.org/abs/2309.09777" target="_blank">DriveDreamer: Towards Real-World-Drive World Models for Autonomous Driving</a>
+    </p>
+
+    <p id="sora">
+      9. T. Brooks et al., 2024,   
+      <a href="https://openai.com/index/video-generation-models-as-world-simulators/" target="_blank">Video generation models as world simulators</a>
+    </p>
+
+    <p id="kong2024hunyuanvideo">
+      10. Weijie et al., 2024,   
+      <a href="https://arxiv.org/abs/2412.03603" target="_blank">Hunyuanvideo: A systematic framework for large video generative models</a>
+    </p>
+
+    <p id="teng2025magi">
+      11. Hansi et al., 2025,   
+      <a href="https://arxiv.org/abs/2505.13211" target="_blank">MAGI-1: Autoregressive Video Generation at Scale</a>
+    </p>
+
+    <p id="zhang2023controlnet">
+      12. Lvmin et al., 2023,   
+      <a href="https://arxiv.org/abs/2302.05543" target="_blank">Adding conditional control to text-to-image diffusion models</a>
+    </p>
+
+    <p id="sketchVideo">
+      13. Fenglin et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.23284" target="_blank">SketchVideo: Sketch-based Video Generation and Editing</a>
+    </p>
+
+    <p id="gu2025das">
+      14. Zekai et al., 2025,   
+      <a href="https://arxiv.org/abs/2501.03847" target="_blank">Diffusion as Shader: 3D-aware Video Diffusion for Versatile Video Generation Control</a>
+    </p>
+
+    <p id="bian2025gsdit">
+      15. Weikang et al., 2025,   
+      <a href="https://arxiv.org/abs/2501.02690" target="_blank">GS-DiT: Advancing Video Generation with Pseudo 4D Gaussian Fields through Efficient Dense 3D Point Tracking</a>
+    </p>
+
+    <p id="xue2025phyt2v">
+      16. Qiyao et al., 2025,   
+      <a href="https://arxiv.org/abs/2412.00596" target="_blank">Phyt2v: Llm-guided iterative self-refinement for physics-grounded text-to-video generation</a>
+    </p>
+
+    <p id="wang2025wisa">
+      17. Jing et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.08153" target="_blank">Wisa: World simulator assistant for physics-aware text-to-video generation</a>
+    </p>
+
+    <p id="he2025cameractrl2">
+      18. Hao et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.10592" target="_blank">CameraCtrl II: Dynamic Scene Exploration via Camera-controlled Video Diffusion Models</a>
+    </p>
+
+    <p id="ren2025gen3c">
+      19. Xuanchi et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.03751" target="_blank">GEN3C: 3D-Informed World-Consistent Video Generation with Precise Camera Control</a>
+    </p>
+
+    <p id="xiang2024pandora">
+      20. Jiannan et al., 2024,   
+      <a href="https://arxiv.org/abs/2406.09455" target="_blank">Pandora: Towards general world model with natural language actions and video states</a>
+    </p>
+
+    <p id="aether">
+      21. Aether et al., 2024,   
+      <a href="https://arxiv.org/abs/2503.18945" target="_blank">Aether: Geometric-aware unified world modeling</a>
+    </p>
+
+
+    <p id="alhaija2025cosmostransfer1">
+      22. Alhaija et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.14492" target="_blank">Cosmos-transfer1: Conditional world generation with adaptive multimodal control</a>
+    </p>
+
+    <p id="guo2024pad">
+      23. Yanjiang et al., 2024,   
+      <a href="https://arxiv.org/abs/2411.18179" target="_blank">Prediction with action: Visual policy learning via joint denoising process</a>
+    </p>
+
+    <p id="fan2024videoagent">
+      24. Yue et al., 2024,   
+      <a href="https://arxiv.org/abs/2403.11481" target="_blank">Videoagent: A memory-augmented multimodal agent for video understanding</a>
+    </p>
+
+    <p id="yang2023unisim">
+      25. Mengjiao et al., 2024,   
+      <a href="https://arxiv.org/abs/2310.06114" target="_blank">Learning interactive real-world simulators</a>
+    </p>
+
+
+    <p id="russell2025gaia2">
+      26. Russell et al., 2025,   
+      <a href="https://arxiv.org/abs/2503.20523" target="_blank">Gaia-2: A controllable multi-view generative world model for autonomous driving</a>
+    </p>
+
+
+    <p id="hu2024drivingworld">
+      27. Xiaotao et al., 2024,   
+      <a href="https://arxiv.org/abs/2412.19505" target="_blank">DrivingWorld: ConstructingWorld Model for Autonomous Driving via Video GPT</a>
+    </p>
+
+    <p id="gao2024vista">
+      28. Shenyuan et al., 2024,   
+      <a href="https://arxiv.org/abs/2405.17398" target="_blank">Vista: A generalizable driving world model with high fidelity and versatile controllability</a>
+    </p>
+
+    <p id="ren2025cosmosdrivedream">
+      29. Xuanchi et al., 2025,   
+      <a href="https://arxiv.org/abs/2506.09042" target="_blank">Cosmos-Drive-Dreams: Scalable Synthetic Driving Data Generation with World Foundation Models</a>
+    </p>
+
+    <p id="li2025hunyuangamecraft">
+      30. Jiaqi al., 2025,   
+      <a href="https://arxiv.org/abs/2506.17201" target="_blank">Hunyuan-GameCraft: High-dynamic Interactive Game Video Generation with Hybrid History Condition</a>
+    </p>
+
+
+    <p id="parker2024genie2">
+      31. Parker-Holder et al., 2024,   
+      <a href="https://deepmind. google/discover/blog/genie-2-a-large-scale-foundation-world-model" target="_blank">Genie 2: A large-scale foundation world model</a>
+    </p>
+
+    <p id="decart2024oasis">
+      32. Decart et al., 2024,   
+      <a href="https://oasis-model.github.io" target="_blank">Oasis: A universe in a transformer</a>
+    </p>
+
+    <p id="valevski2024gamengen">
+      33. Valevski al., 2024,   
+      <a href="https://arxiv.org/abs/2408.14837" target="_blank">Diffusion models are real-time game engines</a>
+    </p>
+
+    <p id="mirage2025">
+      34. Decart AI, 2025,   
+      <a href="https://mirage.decart.ai/" target="_blank">MirageLSD: Zero-Latency, Real-Time, Infinite Video Generation</a>
+    </p>
+
+    <p id="google2025genie3">
+      35. Parker-Holder et al., 2025,   
+      <a href="https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/" target="_blank">Genie 3: A new frontier for world models</a>
+    </p>
+
+    <p id="nwm">
+      36. Bar al., 2025,   
+      <a href="https://arxiv.org/abs/2412.03572" target="_blank">Navigation world models</a>
+    </p>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  </div>
+  </section>
+
+
+  
+
+  <footer>
+    <p>© 2025 Jingtong Yue  All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
